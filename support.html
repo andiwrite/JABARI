@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Store - Support</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #054a91;
+            --secondary-color: #f8f9fa;
+            --accent-color: #db2b39;
+        }
+        body {
+            background: #f4f6fa;
+        }
+        .navbar {
+            background: white !important;
+            margin: 20px 40px;
+            border-radius: 15px;
+            padding: 15px 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand img {
+            height: 40px;
+        }
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .navbar .nav-link {
+            color: #333;
+            font-weight: 500;
+            transition: color 0.2s, transform 0.25s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .navbar .nav-link.active {
+            color: var(--primary-color);
+        }
+        .navbar .nav-link:hover, .navbar .nav-link:focus {
+            color: var(--primary-color);
+            transform: scale(1.13);
+        }
+        .navbar .btn, .navbar .dropdown-toggle {
+            margin-left: 0.5rem;
+        }
+        .navbar .cart-icon {
+            position: relative;
+        }
+        .navbar .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+        }
+        .footer {
+            background: #222;
+            color: #eee;
+            padding: 40px 0 20px 0;
+            border-radius: 20px 20px 0 0;
+            margin: 40px 40px 0 40px;
+        }
+        .footer a {
+            color: #eee;
+            text-decoration: none;
+        }
+        .footer .footer-logo img {
+            height: 36px;
+        }
+        .footer .social-icons a {
+            font-size: 1.3rem;
+            margin-right: 12px;
+            color: #eee;
+        }
+        .footer .payment-logos img {
+            height: 28px;
+            margin-right: 10px;
+        }
+        .footer-newsletter {
+            max-width: 350px;
+            margin: 0 auto 20px auto;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .page-title-section {
+            margin: 0 40px 30px 40px;
+            padding: 30px 0 10px 0;
+            background: linear-gradient(90deg, #e3f0ff 60%, #f8f9fa 100%);
+            border-radius: 18px;
+        }
+        .page-title-section h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        .page-title-section .subtitle {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .breadcrumb {
+            background: none;
+            padding: 0;
+            margin-bottom: 0;
+        }
+        .support-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 28px;
+            margin: 40px 40px 0 40px;
+        }
+        .support-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 28px 18px;
+            text-align: center;
+            transition: box-shadow 0.2s;
+        }
+        .support-card:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+        }
+        .support-card .support-icon {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+        .support-card .support-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .support-card .support-link {
+            color: var(--accent-color);
+            font-size: 0.98rem;
+            text-decoration: underline;
+        }
+        .help-search-section {
+            margin: 60px 40px 0 40px;
+            text-align: center;
+        }
+        .help-search-section input[type="search"] {
+            width: 60%;
+            max-width: 420px;
+            padding: 16px 18px;
+            border-radius: 22px;
+            border: 1px solid #ccc;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+        .popular-topics-section {
+            margin: 60px 40px 0 40px;
+        }
+        .popular-topics-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+        .popular-topics-list .accordion-button {
+            font-size: 1rem;
+        }
+        .live-help-section {
+            margin: 60px 40px 0 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+        .live-help-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 28px 22px;
+            flex: 1 1 260px;
+            text-align: center;
+        }
+        .live-help-card .live-help-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .live-help-card .btn {
+            border-radius: 20px;
+            margin: 6px 0;
+        }
+        .track-order-section {
+            margin: 60px 40px 0 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .track-order-section input[type="text"], .track-order-section input[type="email"] {
+            width: 220px;
+            margin: 0 8px 12px 8px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        .track-order-section .btn {
+            border-radius: 20px;
+            padding: 8px 28px;
+        }
+        .tech-support-section {
+            margin: 60px 40px 0 40px;
+        }
+        .tech-support-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+        .tech-support-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .tech-support-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 22px 18px;
+            flex: 1 1 220px;
+            text-align: center;
+        }
+        .community-section {
+            margin: 60px 40px 0 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .community-section .btn {
+            border-radius: 20px;
+        }
+        .cta-section {
+            margin: 60px 40px 0 40px;
+            background: linear-gradient(90deg, #e3f0ff 60%, #f8f9fa 100%);
+            border-radius: 18px;
+            padding: 40px 0;
+            text-align: center;
+        }
+        .cta-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+        .cta-section .btn {
+            font-size: 1.1rem;
+            padding: 10px 32px;
+            border-radius: 22px;
+        }
+        @media (max-width: 991px) {
+            .support-categories, .help-search-section, .popular-topics-section, .live-help-section, .track-order-section, .tech-support-section, .community-section, .cta-section {
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+            .navbar {
+                margin: 12px 8px;
+            }
+        }
+        @media (max-width: 767px) {
+            .support-categories, .help-search-section, .popular-topics-section, .live-help-section, .track-order-section, .tech-support-section, .community-section, .cta-section {
+                margin-left: 4px;
+                margin-right: 4px;
+            }
+            .page-title-section {
+                margin: 0 8px 20px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section (Same as Other Pages) -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="index.html"><img src="log blue.png" alt="Tech Store Logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+                <li class="nav-item"><a class="nav-link active" href="support.html">Support</a></li>
+            </ul>
+            <form class="d-flex me-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="signin.html" class="btn btn-outline-primary me-2">Login</a>
+            <a href="#" class="btn btn-outline-primary cart-icon me-2"><i class="fas fa-shopping-cart"></i><span class="cart-count">2</span></a>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">EN / GHS</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">English / GHS</a></li>
+                    <li><a class="dropdown-item" href="#">Français / CFA</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Title & Breadcrumb -->
+    <section class="page-title-section">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                <div>
+                    <h1 class="mb-0">Support</h1>
+                    <div class="subtitle">Find answers, contact us, or get help now</div>
+                </div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Support</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- Support Options Section -->
+    <section class="support-categories">
+        <div class="support-card">
+            <div class="support-icon"><i class="fas fa-box"></i></div>
+            <div class="support-title">Orders</div>
+            <a href="order-help.html" class="support-link">Order Help</a>
+        </div>
+        <div class="support-card">
+            <div class="support-icon"><i class="fas fa-credit-card"></i></div>
+            <div class="support-title">Payments</div>
+            <a href="payment-help.html" class="support-link">Payment Issues</a>
+        </div>
+        <div class="support-card">
+            <div class="support-icon"><i class="fas fa-truck"></i></div>
+            <div class="support-title">Shipping</div>
+            <a href="shipping-help.html" class="support-link">Shipping Info</a>
+        </div>
+        <div class="support-card">
+            <div class="support-icon"><i class="fas fa-undo"></i></div>
+            <div class="support-title">Returns</div>
+            <a href="returns.html" class="support-link">Return Policy</a>
+        </div>
+        <div class="support-card">
+            <div class="support-icon"><i class="fas fa-user"></i></div>
+            <div class="support-title">Accounts</div>
+            <a href="account-help.html" class="support-link">Account Help</a>
+        </div>
+        <div class="support-card">
+            <div class="support-icon"><i class="fas fa-tools"></i></div>
+            <div class="support-title">Technical Issues</div>
+            <a href="tech-support.html" class="support-link">Tech Support</a>
+        </div>
+    </section>
+    <!-- Search Help Center -->
+    <section class="help-search-section">
+        <input type="search" placeholder="Search our help articles…">
+    </section>
+    <!-- Popular Help Topics -->
+    <section class="popular-topics-section">
+        <div class="popular-topics-title">Popular Help Topics</div>
+        <div class="accordion popular-topics-list" id="popularTopicsAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="topic1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTopic1" aria-expanded="true" aria-controls="collapseTopic1">
+                        Where is my order?
+                    </button>
+                </h2>
+                <div id="collapseTopic1" class="accordion-collapse collapse show" aria-labelledby="topic1" data-bs-parent="#popularTopicsAccordion">
+                    <div class="accordion-body">
+                        You can track your order using the Track Your Order section below or contact support for updates.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="topic2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTopic2" aria-expanded="false" aria-controls="collapseTopic2">
+                        How do I return a product?
+                    </button>
+                </h2>
+                <div id="collapseTopic2" class="accordion-collapse collapse" aria-labelledby="topic2" data-bs-parent="#popularTopicsAccordion">
+                    <div class="accordion-body">
+                        Visit our Returns section or contact support to initiate a return.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="topic3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTopic3" aria-expanded="false" aria-controls="collapseTopic3">
+                        How do I update my account information?
+                    </button>
+                </h2>
+                <div id="collapseTopic3" class="accordion-collapse collapse" aria-labelledby="topic3" data-bs-parent="#popularTopicsAccordion">
+                    <div class="accordion-body">
+                        Log in to your account and go to Account Settings to update your information.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="topic4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTopic4" aria-expanded="false" aria-controls="collapseTopic4">
+                        How do I contact support?
+                    </button>
+                </h2>
+                <div id="collapseTopic4" class="accordion-collapse collapse" aria-labelledby="topic4" data-bs-parent="#popularTopicsAccordion">
+                    <div class="accordion-body">
+                        Use the Live Help section below or email us at info@techstore.com.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Live Help Section -->
+    <section class="live-help-section">
+        <div class="live-help-card">
+            <div class="live-help-title">Live Chat</div>
+            <a href="#" class="btn btn-primary"><i class="fas fa-comments"></i> Chat Now</a>
+        </div>
+        <div class="live-help-card">
+            <div class="live-help-title">Phone Support</div>
+            <div class="mb-2"><i class="fas fa-phone"></i> +233 24 000 0000</div>
+            <a href="tel:+233240000000" class="btn btn-outline-primary">Call Us</a>
+        </div>
+        <div class="live-help-card">
+            <div class="live-help-title">Email Support</div>
+            <a href="mailto:info@techstore.com" class="btn btn-outline-primary"><i class="fas fa-envelope"></i> Email Us</a>
+        </div>
+        <div class="live-help-card">
+            <div class="live-help-title">Submit a Ticket</div>
+            <a href="#" class="btn btn-outline-primary"><i class="fas fa-ticket-alt"></i> Submit Ticket</a>
+        </div>
+    </section>
+    <!-- Track Your Order Section -->
+    <section class="track-order-section">
+        <div class="mb-3 fw-bold">Track Your Order</div>
+        <form>
+            <input type="text" placeholder="Order ID" required>
+            <input type="email" placeholder="Email" required>
+            <button type="submit" class="btn btn-primary">Track Order</button>
+        </form>
+    </section>
+    <!-- Technical Support Section -->
+    <section class="tech-support-section">
+        <div class="tech-support-title">Technical Support</div>
+        <div class="tech-support-list">
+            <div class="tech-support-card">
+                <div class="mb-2"><i class="fas fa-book"></i></div>
+                <div>Troubleshooting Guides</div>
+            </div>
+            <div class="tech-support-card">
+                <div class="mb-2"><i class="fas fa-download"></i></div>
+                <div>Product Manuals / Downloads</div>
+            </div>
+            <div class="tech-support-card">
+                <div class="mb-2"><i class="fas fa-tools"></i></div>
+                <div>Submit Tech Issue</div>
+            </div>
+        </div>
+    </section>
+    <!-- Community Support Section -->
+    <section class="community-section">
+        <div class="mb-2 fw-bold">Community Support</div>
+        <div class="mb-2">Join our user forum to ask questions, share tips, and connect with other tech lovers.</div>
+        <a href="forum.html" class="btn btn-outline-primary"><i class="fas fa-users"></i> Visit Forum</a>
+    </section>
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+        <h2>Still Need Help?</h2>
+        <a href="support.html" class="btn btn-primary">Contact Support</a>
+    </section>
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-3 footer-logo mb-3 mb-md-0">
+                    <img src="log white.png" alt="Tech Store Logo">
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Shop</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="support.html">Contact</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Contact</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-phone me-2"></i>+233 24 000 0000</li>
+                        <li><i class="fas fa-envelope me-2"></i>info@techstore.com</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Accra, Ghana</li>
+                        <li><i class="fab fa-whatsapp me-2"></i><a href="#">Chat on WhatsApp</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Newsletter</h6>
+                    <form class="footer-newsletter d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Your email">
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </form>
+                    <div class="mt-2">
+                        <span class="payment-logos">
+                            <img src="assets/visa.png" alt="Visa">
+                            <img src="assets/mastercard.png" alt="MasterCard">
+                            <img src="assets/amex.png" alt="Amex">
+                            <img src="assets/paypal.png" alt="PayPal">
+                            <img src="assets/paystack.png" alt="Paystack">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-12 text-end">
+                    <small>&copy; 2024 Tech Store. All rights reserved.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Store - Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #054a91;
+            --secondary-color: #f8f9fa;
+            --accent-color: #db2b39;
+        }
+        body {
+            background: #f4f6fa;
+        }
+        .navbar {
+            background: white !important;
+            margin: 20px 40px;
+            border-radius: 15px;
+            padding: 15px 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand img {
+            height: 40px;
+        }
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .navbar .nav-link {
+            color: #333;
+            font-weight: 500;
+            transition: color 0.2s, transform 0.25s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .navbar .nav-link.active {
+            color: var(--primary-color);
+        }
+        .navbar .nav-link:hover, .navbar .nav-link:focus {
+            color: var(--primary-color);
+            transform: scale(1.13);
+        }
+        .navbar .btn, .navbar .dropdown-toggle {
+            margin-left: 0.5rem;
+        }
+        .navbar .cart-icon {
+            position: relative;
+        }
+        .navbar .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+        }
+        .footer {
+            background: #222;
+            color: #eee;
+            padding: 40px 0 20px 0;
+            border-radius: 20px 20px 0 0;
+            margin: 40px 40px 0 40px;
+        }
+        .footer a {
+            color: #eee;
+            text-decoration: none;
+        }
+        .footer .footer-logo img {
+            height: 36px;
+        }
+        .footer .social-icons a {
+            font-size: 1.3rem;
+            margin-right: 12px;
+            color: #eee;
+        }
+        .footer .payment-logos img {
+            height: 28px;
+            margin-right: 10px;
+        }
+        .footer-newsletter {
+            max-width: 350px;
+            margin: 0 auto 20px auto;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            cursor: pointer;
+            z-index: 1000;
+        }
+        /* Page Title & Breadcrumb */
+        .page-title-section {
+            margin: 0 40px 30px 40px;
+            padding: 30px 0 10px 0;
+            background: linear-gradient(90deg, #e3f0ff 60%, #f8f9fa 100%);
+            border-radius: 18px;
+        }
+        .page-title-section h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        .breadcrumb {
+            background: none;
+            padding: 0;
+            margin-bottom: 0;
+        }
+        /* Layout */
+        .products-layout {
+            margin: 0 40px 40px 40px;
+        }
+        .filter-sidebar {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 24px 18px;
+            min-width: 240px;
+        }
+        .filter-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+        .filter-group label {
+            font-weight: 500;
+        }
+        .filter-group input[type="range"] {
+            width: 100%;
+        }
+        .filter-group .form-check {
+            margin-bottom: 0.5rem;
+        }
+        .filter-group .stars {
+            color: #ffb400;
+            font-size: 1.1rem;
+        }
+        /* Product Grid */
+        .products-grid-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+        }
+        .products-grid-controls .form-select, .products-grid-controls .btn {
+            margin-right: 0.5rem;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 24px;
+        }
+        .product-card {
+            border: none;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: box-shadow 0.2s;
+            overflow: hidden;
+            position: relative;
+        }
+        .product-card:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        }
+        .product-card .wishlist {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            color: #bbb;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .product-card .wishlist.active {
+            color: var(--accent-color);
+        }
+        .product-card .card-img-top {
+            max-width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            padding-top: 18px;
+        }
+        .product-card:hover .card-img-top {
+            transform: scale(1.1);
+        }
+        .product-card .card-body {
+            padding: 1.25rem;
+            background: white;
+            text-align: center;
+        }
+        .product-card .price {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .product-card .old-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 0.95rem;
+            margin-left: 8px;
+        }
+        .product-card .discount-tag {
+            background: var(--accent-color);
+            color: white;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            padding: 2px 8px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        .product-card .rating {
+            color: #ffb400;
+            font-size: 1rem;
+        }
+        .product-card .quick-view {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 18px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .product-card:hover .quick-view {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .product-card .btn-cart {
+            margin-top: 0.7rem;
+            width: 100%;
+        }
+        /* Pagination */
+        .pagination {
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        /* Sticky Filter Button (Mobile) */
+        .sticky-filter-btn {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+        @media (max-width: 991px) {
+            .products-layout {
+                flex-direction: column;
+            }
+            .filter-sidebar {
+                margin-bottom: 24px;
+            }
+        }
+        @media (max-width: 767px) {
+            .products-layout {
+                margin: 0 8px 40px 8px;
+            }
+            .page-title-section {
+                margin: 0 8px 20px 8px;
+            }
+            .navbar {
+                margin: 12px 8px;
+            }
+            .sticky-filter-btn {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section (Same as Homepage) -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="index.html"><img src="log blue.png" alt="Tech Store Logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link active" href="products.html">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
+            </ul>
+            <form class="d-flex me-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="signin.html" class="btn btn-outline-primary me-2">Login</a>
+            <a href="#" class="btn btn-outline-primary cart-icon me-2"><i class="fas fa-shopping-cart"></i><span class="cart-count">2</span></a>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">EN / GHS</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">English / GHS</a></li>
+                    <li><a class="dropdown-item" href="#">Français / CFA</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Title & Breadcrumb -->
+    <section class="page-title-section">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                <h1 class="mb-0">All Products</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Products</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- Main Layout -->
+    <div class="d-flex products-layout">
+        <!-- Filter Sidebar -->
+        <aside class="filter-sidebar me-4">
+            <div class="filter-title">Filters</div>
+            <div class="filter-group">
+                <label>Categories</label>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="cat1"><label class="form-check-label" for="cat1">Phones</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="cat2"><label class="form-check-label" for="cat2">Laptops</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="cat3"><label class="form-check-label" for="cat3">Accessories</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="cat4"><label class="form-check-label" for="cat4">Smart Tech</label></div>
+            </div>
+            <div class="filter-group">
+                <label>Price Range</label>
+                <input type="range" class="form-range" min="0" max="10000" step="50">
+                <div class="d-flex justify-content-between"><span>GHS 0</span><span>GHS 10,000+</span></div>
+            </div>
+            <div class="filter-group">
+                <label>Brand</label>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="brand1"><label class="form-check-label" for="brand1">Samsung</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="brand2"><label class="form-check-label" for="brand2">Apple</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="brand3"><label class="form-check-label" for="brand3">HP</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="brand4"><label class="form-check-label" for="brand4">Dell</label></div>
+            </div>
+            <div class="filter-group">
+                <label>Rating</label>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="star5"><label class="form-check-label stars" for="star5">★★★★★</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="star4"><label class="form-check-label stars" for="star4">★★★★☆</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="star3"><label class="form-check-label stars" for="star3">★★★☆☆</label></div>
+            </div>
+            <div class="filter-group">
+                <label>Availability</label>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="inStock"><label class="form-check-label" for="inStock">In Stock</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="outStock"><label class="form-check-label" for="outStock">Out of Stock</label></div>
+            </div>
+            <div class="filter-group">
+                <label>Sort By</label>
+                <select class="form-select">
+                    <option>Default</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                    <option>Newest</option>
+                    <option>Popularity</option>
+                </select>
+            </div>
+        </aside>
+        <!-- Main Product Grid -->
+        <main class="flex-grow-1">
+            <div class="products-grid-controls mb-3">
+                <div class="d-flex align-items-center">
+                    <label class="me-2">Sort by:</label>
+                    <select class="form-select me-2" style="width: 160px;">
+                        <option>Default</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                        <option>Newest</option>
+                        <option>Popularity</option>
+                    </select>
+                    <button class="btn btn-outline-secondary me-2" title="Grid View"><i class="fas fa-th"></i></button>
+                    <button class="btn btn-outline-secondary" title="List View"><i class="fas fa-list"></i></button>
+                </div>
+                <div>
+                    <label class="me-2">Show:</label>
+                    <select class="form-select d-inline-block" style="width: 80px;">
+                        <option>8</option>
+                        <option>16</option>
+                        <option>32</option>
+                    </select>
+                </div>
+            </div>
+            <div class="products-grid">
+                <!-- Example Product Card -->
+                <div class="product-card">
+                    <span class="wishlist"><i class="far fa-heart"></i></span>
+                    <span class="discount-tag">-15%</span>
+                    <img src="galaxy.png" class="card-img-top" alt="Samsung Galaxy S24">
+                    <div class="card-body">
+                        <div class="card-title">Samsung Galaxy S24</div>
+                        <div class="price">GH₵ 7,499 <span class="old-price">GH₵ 8,799</span></div>
+                        <div class="rating mb-2">★★★★☆</div>
+                        <button class="btn btn-primary btn-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <span class="wishlist"><i class="far fa-heart"></i></span>
+                    <img src="laptop.png" class="card-img-top" alt="HP Pavilion 15">
+                    <div class="card-body">
+                        <div class="card-title">HP Pavilion 15</div>
+                        <div class="price">GH₵ 5,299</div>
+                        <div class="rating mb-2">★★★★★</div>
+                        <button class="btn btn-primary btn-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <span class="wishlist"><i class="far fa-heart"></i></span>
+                    <span class="discount-tag">-10%</span>
+                    <img src="accessories.png" class="card-img-top" alt="Wireless Earbuds">
+                    <div class="card-body">
+                        <div class="card-title">Wireless Earbuds</div>
+                        <div class="price">GH₵ 299 <span class="old-price">GH₵ 329</span></div>
+                        <div class="rating mb-2">★★★★☆</div>
+                        <button class="btn btn-primary btn-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <span class="wishlist"><i class="far fa-heart"></i></span>
+                    <img src="gaming.png" class="card-img-top" alt="PlayStation 5">
+                    <div class="card-body">
+                        <div class="card-title">PlayStation 5</div>
+                        <div class="price">GH₵ 6,999</div>
+                        <div class="rating mb-2">★★★★★</div>
+                        <button class="btn btn-primary btn-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <span class="wishlist"><i class="far fa-heart"></i></span>
+                    <img src="smart.png" class="card-img-top" alt="Apple Watch Series 9">
+                    <div class="card-body">
+                        <div class="card-title">Apple Watch Series 9</div>
+                        <div class="price">GH₵ 2,499</div>
+                        <div class="rating mb-2">★★★★☆</div>
+                        <button class="btn btn-primary btn-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <span class="wishlist"><i class="far fa-heart"></i></span>
+                    <img src="home.png" class="card-img-top" alt="Smart Home Hub">
+                    <div class="card-body">
+                        <div class="card-title">Smart Home Hub</div>
+                        <div class="price">GH₵ 799</div>
+                        <div class="rating mb-2">★★★☆☆</div>
+                        <button class="btn btn-primary btn-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <span class="wishlist"><i class="far fa-heart"></i></span>
+                    <img src="galaxy.png" class="card-img-top" alt="Samsung Galaxy Buds2 Pro">
+                    <div class="card-body">
+                        <div class="card-title">Samsung Galaxy Buds2 Pro</div>
+                        <div class="price">GH₵ 1,099</div>
+                        <div class="rating mb-2">★★★★☆</div>
+                        <button class="btn btn-primary btn-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <span class="wishlist"><i class="far fa-heart"></i></span>
+                    <img src="laptop.png" class="card-img-top" alt="Dell XPS 13">
+                    <div class="card-body">
+                        <div class="card-title">Dell XPS 13</div>
+                        <div class="price">GH₵ 7,999</div>
+                        <div class="rating mb-2">★★★★★</div>
+                        <button class="btn btn-primary btn-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </main>
+    </div>
+    <!-- Sticky Filter Button (Mobile) -->
+    <button class="sticky-filter-btn" title="Show Filters"><i class="fas fa-filter"></i></button>
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-3 footer-logo mb-3 mb-md-0">
+                    <img src="log white.png" alt="Tech Store Logo">
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="products.html">Shop</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Contact</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-phone me-2"></i>+233 24 000 0000</li>
+                        <li><i class="fas fa-envelope me-2"></i>info@techstore.com</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Accra, Ghana</li>
+                        <li><i class="fab fa-whatsapp me-2"></i><a href="#">Chat on WhatsApp</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Newsletter</h6>
+                    <form class="footer-newsletter d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Your email">
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </form>
+                    <div class="mt-2">
+                        <span class="payment-logos">
+                            <img src="visa.png" alt="Visa">
+                            <img src="mastercard.png" alt="MasterCard">
+                            <img src="paypal.png" alt="PayPal">
+                            <img src="paystack.png" alt="Paystack">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-12 text-end">
+                    <small>&copy; 2024 Tech Store. All rights reserved.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

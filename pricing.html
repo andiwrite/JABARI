@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Store - Pricing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #054a91;
+            --secondary-color: #f8f9fa;
+            --accent-color: #db2b39;
+        }
+        body {
+            background: #f4f6fa;
+        }
+        .navbar {
+            background: white !important;
+            margin: 20px 40px;
+            border-radius: 15px;
+            padding: 15px 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand img {
+            height: 40px;
+        }
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .navbar .nav-link {
+            color: #333;
+            font-weight: 500;
+            transition: color 0.2s, transform 0.25s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .navbar .nav-link.active {
+            color: var(--primary-color);
+        }
+        .navbar .nav-link:hover, .navbar .nav-link:focus {
+            color: var(--primary-color);
+            transform: scale(1.13);
+        }
+        .navbar .btn, .navbar .dropdown-toggle {
+            margin-left: 0.5rem;
+        }
+        .navbar .cart-icon {
+            position: relative;
+        }
+        .navbar .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+        }
+        .footer {
+            background: #222;
+            color: #eee;
+            padding: 40px 0 20px 0;
+            border-radius: 20px 20px 0 0;
+            margin: 40px 40px 0 40px;
+        }
+        .footer a {
+            color: #eee;
+            text-decoration: none;
+        }
+        .footer .footer-logo img {
+            height: 36px;
+        }
+        .footer .social-icons a {
+            font-size: 1.3rem;
+            margin-right: 12px;
+            color: #eee;
+        }
+        .footer .payment-logos img {
+            height: 28px;
+            margin-right: 10px;
+        }
+        .footer-newsletter {
+            max-width: 350px;
+            margin: 0 auto 20px auto;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .page-title-section {
+            margin: 0 40px 30px 40px;
+            padding: 30px 0 10px 0;
+            background: linear-gradient(90deg, #e3f0ff 60%, #f8f9fa 100%);
+            border-radius: 18px;
+        }
+        .page-title-section h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        .page-title-section .subtitle {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .breadcrumb {
+            background: none;
+            padding: 0;
+            margin-bottom: 0;
+        }
+        .pricing-plans {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            margin: 40px 40px 0 40px;
+            justify-content: center;
+        }
+        .plan-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 36px 28px;
+            text-align: center;
+            flex: 1 1 260px;
+            max-width: 340px;
+            position: relative;
+        }
+        .plan-card .plan-badge {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: var(--accent-color);
+            color: #fff;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            padding: 3px 12px;
+            font-weight: 600;
+        }
+        .plan-card .plan-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 18px;
+        }
+        .plan-card .plan-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        .plan-card .plan-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        .plan-card .plan-period {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 16px;
+        }
+        .plan-card ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 18px;
+        }
+        .plan-card ul li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        .plan-card .btn {
+            width: 100%;
+            border-radius: 20px;
+        }
+        .product-pricing-table {
+            margin: 60px 40px 0 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 32px 24px;
+        }
+        .product-pricing-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .product-pricing-table th, .product-pricing-table td {
+            border: 1px solid #e3e3e3;
+            padding: 10px 8px;
+            text-align: center;
+        }
+        .product-pricing-table th {
+            background: #f4f6fa;
+        }
+        .product-pricing-table .bestseller {
+            background: #e3f0ff;
+            font-weight: 600;
+        }
+        .bulk-section {
+            margin: 60px 40px 0 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .bulk-section h4 {
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .bulk-section .btn {
+            border-radius: 20px;
+            margin: 0 8px;
+        }
+        .faq-section {
+            margin: 60px 40px 0 40px;
+        }
+        .faq-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+        .discounts-section {
+            margin: 60px 40px 0 40px;
+            background: linear-gradient(90deg, #e3f0ff 60%, #f8f9fa 100%);
+            border-radius: 18px;
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .discounts-section h4 {
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .discounts-section .badge {
+            font-size: 1rem;
+            margin: 0 8px 8px 0;
+        }
+        .cta-section {
+            margin: 60px 40px 0 40px;
+            background: linear-gradient(90deg, #e3f0ff 60%, #f8f9fa 100%);
+            border-radius: 18px;
+            padding: 40px 0;
+            text-align: center;
+        }
+        .cta-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+        .cta-section .btn {
+            font-size: 1.1rem;
+            padding: 10px 32px;
+            border-radius: 22px;
+        }
+        @media (max-width: 991px) {
+            .pricing-plans, .product-pricing-table, .bulk-section, .faq-section, .discounts-section, .cta-section {
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+            .navbar {
+                margin: 12px 8px;
+            }
+        }
+        @media (max-width: 767px) {
+            .pricing-plans, .product-pricing-table, .bulk-section, .faq-section, .discounts-section, .cta-section {
+                margin-left: 4px;
+                margin-right: 4px;
+            }
+            .page-title-section {
+                margin: 0 8px 20px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section (Same as Other Pages) -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="index.html"><img src="log blue.png" alt="Tech Store Logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+                <li class="nav-item"><a class="nav-link active" href="pricing.html">Pricing</a></li>
+                <li class="nav-item"><a class="nav-link" href="support.html">Support</a></li>
+            </ul>
+            <form class="d-flex me-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="signin.html" class="btn btn-outline-primary me-2">Login</a>
+            <a href="#" class="btn btn-outline-primary cart-icon me-2"><i class="fas fa-shopping-cart"></i><span class="cart-count">2</span></a>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">EN / GHS</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">English / GHS</a></li>
+                    <li><a class="dropdown-item" href="#">Français / CFA</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Title & Breadcrumb -->
+    <section class="page-title-section">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                <div>
+                    <h1 class="mb-0">Pricing</h1>
+                    <div class="subtitle">Affordable Plans for Every Tech Lover</div>
+                </div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Pricing</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- Pricing Plans / Packages Section -->
+    <section class="pricing-plans">
+        <div class="plan-card">
+            <div class="plan-icon"><i class="fas fa-cube"></i></div>
+            <div class="plan-title">Basic</div>
+            <div class="plan-price">GH₵ 0</div>
+            <div class="plan-period">Free Forever</div>
+            <ul>
+                <li>Access to Weekly Deals</li>
+                <li>Standard Support</li>
+                <li>Newsletter Subscription</li>
+            </ul>
+            <a href="#" class="btn btn-outline-primary">Get Started</a>
+        </div>
+        <div class="plan-card">
+            <div class="plan-badge">Best Value</div>
+            <div class="plan-icon"><i class="fas fa-gem"></i></div>
+            <div class="plan-title">Premium</div>
+            <div class="plan-price">GH₵ 49</div>
+            <div class="plan-period">per month</div>
+            <ul>
+                <li>All Basic Features</li>
+                <li>Exclusive Member Discounts</li>
+                <li>Priority Support</li>
+                <li>Early Access to Sales</li>
+            </ul>
+            <a href="#" class="btn btn-primary">Subscribe</a>
+        </div>
+        <div class="plan-card">
+            <div class="plan-icon"><i class="fas fa-rocket"></i></div>
+            <div class="plan-title">Pro</div>
+            <div class="plan-price">GH₵ 99</div>
+            <div class="plan-period">per month</div>
+            <ul>
+                <li>All Premium Features</li>
+                <li>Dedicated Account Manager</li>
+                <li>Free Express Delivery</li>
+                <li>VIP Event Invites</li>
+            </ul>
+            <a href="#" class="btn btn-outline-primary">Buy Now</a>
+        </div>
+    </section>
+    <!-- Product-Specific Pricing Table -->
+    <section class="product-pricing-table">
+        <div class="mb-3 fw-bold">Product Pricing</div>
+        <table>
+            <tr>
+                <th>Product Type</th>
+                <th>Specs</th>
+                <th>Price</th>
+                <th>Notes</th>
+            </tr>
+            <tr class="bestseller">
+                <td>Smartphone</td>
+                <td>128GB, 8GB RAM</td>
+                <td>GH₵ 3,499</td>
+                <td>Bestseller</td>
+            </tr>
+            <tr>
+                <td>Laptop</td>
+                <td>i5, 8GB, 512GB SSD</td>
+                <td>GH₵ 5,999</td>
+                <td>Free Bag</td>
+            </tr>
+            <tr>
+                <td>Wireless Earbuds</td>
+                <td>Bluetooth 5.2</td>
+                <td>GH₵ 299</td>
+                <td>Hot Deal</td>
+            </tr>
+            <tr>
+                <td>Smartwatch</td>
+                <td>AMOLED, GPS</td>
+                <td>GH₵ 1,199</td>
+                <td>-</td>
+            </tr>
+        </table>
+    </section>
+    <!-- Bulk Purchase / Business Packages -->
+    <section class="bulk-section">
+        <h4>Bulk & Business Packages</h4>
+        <p>Special pricing and custom packages for businesses, schools, and resellers.</p>
+        <a href="#" class="btn btn-outline-primary">Request Quote</a>
+        <a href="#" class="btn btn-primary">Contact Sales</a>
+    </section>
+    <!-- FAQs About Pricing -->
+    <section class="faq-section">
+        <div class="faq-title">Frequently Asked Questions</div>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                        What payment methods do you accept?
+                    </button>
+                </h2>
+                <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="faq1" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        We accept Visa, MasterCard, Mobile Money, and Paystack.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                        What is your refund policy?
+                    </button>
+                </h2>
+                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="faq2" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        You can request a refund within 14 days of purchase for eligible products.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                        Are subscriptions auto-renewed?
+                    </button>
+                </h2>
+                <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="faq3" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, subscriptions are auto-renewed monthly, but you can cancel anytime.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                        Do you offer student or loyalty discounts?
+                    </button>
+                </h2>
+                <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="faq4" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes! See our Discounts section below for more details.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Discounts / Offers Section -->
+    <section class="discounts-section">
+        <h4>Current Discounts & Offers</h4>
+        <span class="badge bg-success">STUDENT10 - 10% Off for Students</span>
+        <span class="badge bg-warning text-dark">LOYALTY5 - 5% Off for Returning Customers</span>
+        <span class="badge bg-danger">FLASHSALE - Up to 20% Off Selected Items</span>
+        <div class="mt-2">Seasonal sales and promo codes available at checkout!</div>
+    </section>
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+        <h2>Find Your Perfect Deal</h2>
+        <a href="products.html" class="btn btn-primary">Shop Now</a>
+    </section>
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-3 footer-logo mb-3 mb-md-0">
+                    <img src="log white.png" alt="Tech Store Logo">
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Shop</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="support.html">Contact</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Contact</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-phone me-2"></i>+233 24 000 0000</li>
+                        <li><i class="fas fa-envelope me-2"></i>info@techstore.com</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Accra, Ghana</li>
+                        <li><i class="fab fa-whatsapp me-2"></i><a href="#">Chat on WhatsApp</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Newsletter</h6>
+                    <form class="footer-newsletter d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Your email">
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </form>
+                    <div class="mt-2">
+                        <span class="payment-logos">
+                            <img src="visa.png" alt="Visa">
+                            <img src="mastercard.png" alt="MasterCard">
+                            <img src="paypal.png" alt="PayPal">
+                            <img src="paystack.png" alt="Paystack">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-12 text-end">
+                    <small>&copy; 2024 Tech Store. All rights reserved.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

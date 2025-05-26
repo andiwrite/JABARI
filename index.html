@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Store - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #054a91;
+            --secondary-color: #f8f9fa;
+            --accent-color: #db2b39;
+        }
+        body {
+            background: #f4f6fa;
+        }
+        /* Header */
+        .navbar {
+            background: white !important;
+            margin: 20px 40px;
+            border-radius: 15px;
+            padding: 15px 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand img {
+            height: 40px;
+        }
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .navbar .nav-link {
+            color: #333;
+            font-weight: 500;
+            transition: color 0.2s, transform 0.25s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .navbar .nav-link.active {
+            color: var(--primary-color);
+        }
+        .navbar .nav-link:hover, .navbar .nav-link:focus {
+            color: var(--primary-color);
+            transform: scale(1.13);
+        }
+        .navbar .btn, .navbar .dropdown-toggle {
+            margin-left: 0.5rem;
+        }
+        .navbar .cart-icon {
+            position: relative;
+        }
+        .navbar .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+        }
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(90deg, #e3f0ff 60%, #f8f9fa 100%);
+            border-radius: 20px;
+            margin: 0 40px 40px 40px;
+            padding: 60px 0 40px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 350px;
+            position: relative;
+        }
+        .hero-content {
+            max-width: 500px;
+            margin-left: 60px;
+        }
+        .hero-content h1 {
+            font-size: 2.7rem;
+            font-weight: 700;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+        .hero-content .btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2.2rem;
+            font-size: 1.1rem;
+        }
+        .hero-image {
+            max-width: 420px;
+            margin-right: 60px;
+        }
+        .hero-image img {
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+        /* Featured Categories */
+        .categories-section {
+            margin: 0 40px 40px 40px;
+        }
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            text-align: center;
+            padding: 30px 10px 20px 10px;
+            transition: box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .category-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+        }
+        .category-card img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            transition: transform 0.3s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .category-card:hover img {
+            transform: scale(1.18);
+        }
+        /* Promotions & Deals */
+        .deals-section {
+            margin: 0 40px 40px 40px;
+        }
+        .deal-banner {
+            background: linear-gradient(90deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .deal-banner .deal-timer {
+            font-size: 1.1rem;
+            color: #b71c1c;
+            font-weight: 600;
+        }
+        .promo-cards {
+            display: flex;
+            gap: 20px;
+        }
+        .promo-card {
+            background: #fff3e0;
+            border-radius: 12px;
+            padding: 18px 24px;
+            flex: 1;
+            text-align: center;
+            font-weight: 500;
+            color: #b76e00;
+        }
+        /* Featured Products */
+        .products-section {
+            margin: 0 40px 40px 40px;
+        }
+        .product-card {
+            border: none;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: box-shadow 0.2s;
+        }
+        .product-card .card-img-top {
+            max-width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            padding-top: 18px;
+        }
+        .product-card:hover .card-img-top {
+            transform: scale(1.1);
+        }
+        .product-card .card-body {
+            padding: 1.25rem;
+            background: white;
+            position: relative;
+            text-align: center;
+        }
+        .product-card .price {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .product-card .old-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 0.95rem;
+            margin-left: 8px;
+        }
+        .product-card .discount-tag {
+            background: var(--accent-color);
+            color: white;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            padding: 2px 8px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        .product-card .rating {
+            color: #ffb400;
+            font-size: 1rem;
+        }
+        .product-card .quick-view {
+            /* Removed: No longer needed since Quick View button is deleted */
+        }
+        .product-card:hover .quick-view {
+            /* Removed: No longer needed since Quick View button is deleted */
+        }
+        .product-card:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        }
+        /* Why Shop With Us */
+        .why-section {
+            margin: 0 40px 40px 40px;
+            background: white;
+            border-radius: 15px;
+            padding: 40px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .why-feature {
+            text-align: center;
+            padding: 0 20px;
+        }
+        .why-feature i {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        /* Testimonials */
+        .testimonials-section {
+            margin: 0 40px 40px 40px;
+        }
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 30px 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .testimonial-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .testimonial-rating {
+            color: #ffb400;
+            font-size: 1.1rem;
+        }
+        /* Newsletter */
+        .newsletter-section {
+            margin: 0 40px 40px 40px;
+            background: white;
+            border-radius: 15px;
+            padding: 40px 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .newsletter-input {
+            max-width: 350px;
+            margin: 0 auto;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        /* Blog Highlights */
+        .blog-section {
+            margin: 0 40px 40px 40px;
+        }
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 20px 18px;
+            margin-bottom: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        /* Social Media Feed */
+        .social-section {
+            margin: 0 40px 40px 40px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        /* Footer */
+        .footer {
+            background: #222;
+            color: #eee;
+            padding: 40px 0 20px 0;
+            border-radius: 20px 20px 0 0;
+            margin: 40px 40px 0 40px;
+        }
+        .footer a {
+            color: #eee;
+            text-decoration: none;
+        }
+        .footer .footer-logo img {
+            height: 36px;
+        }
+        .footer .social-icons a {
+            font-size: 1.3rem;
+            margin-right: 12px;
+            color: #eee;
+        }
+        .footer .payment-logos img {
+            height: 28px;
+            margin-right: 10px;
+        }
+        .footer-newsletter {
+            max-width: 350px;
+            margin: 0 auto 20px auto;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .flash-card {
+            transition: box-shadow 0.3s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .flash-card:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        }
+        .flash-card img {
+            transition: transform 0.3s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .flash-card:hover img {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"><img src="log blue.png" alt="Tech Store Logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
+            </ul>
+            <form class="d-flex me-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="signin.html" class="btn btn-outline-secondary me-2"><i class="fas fa-user"></i> Login</a>
+            <a href="#" class="btn btn-outline-primary cart-icon me-2"><i class="fas fa-shopping-cart"></i><span class="cart-count">2</span></a>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">EN / GHS</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">English / GHS</a></li>
+                    <li><a class="dropdown-item" href="#">Français / CFA</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section d-flex flex-wrap flex-md-nowrap align-items-center justify-content-between">
+        <div class="hero-content">
+            <h1>Shop the Best Tech, Delivered Fast.</h1>
+            <p>Laptops, phones, gadgets & accessories at unbeatable prices.</p>
+            <a href="products.html" class="btn btn-primary btn-lg">Shop Now</a>
+        </div>
+        <div class="hero-image d-none d-md-block">
+            <img src="back2.png" alt="Top Tech Products">
+        </div>
+    </section>
+
+    <!-- Featured Categories -->
+    <section class="categories-section">
+        <h2 class="mb-4">Featured Categories</h2>
+        <div class="row g-4">
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="category-card">
+                    <img src="phone.png" alt="Phones">
+                    <div>Phones</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="category-card">
+                    <img src="laptop.png" alt="Laptops">
+                    <div>Laptops</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="category-card">
+                    <img src="accessories.png" alt="Accessories">
+                    <div>Accessories</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="category-card">
+                    <img src="gaming.png" alt="Gaming">
+                    <div>Gaming</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="category-card">
+                    <img src="smart.png" alt="Smart Tech">
+                    <div>Smart Tech</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="category-card">
+                    <img src="home.png" alt="Home Tech">
+                    <div>Home Tech</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!--  
+    <section class="deals-section">
+        <div class="deal-banner mb-3">
+            <div>
+                <strong>Flash Sale:</strong> Up to 40% off smartphones!
+            </div>
+            <div class="deal-timer">
+                Ends in <span id="deal-timer">02:15:42</span>
+            </div>
+        </div>
+        <div class="promo-cards">
+            <div class="promo-card">Back to School: Laptops from GHS 2,499</div>
+            <div class="promo-card">Buy 1, Get 1 Free on Accessories</div>
+            <div class="promo-card">Limited Stock: Gaming Consoles</div>
+        </div>
+    </section> -->
+
+    <!-- Flash Sales Section -->
+    <section class="flash-sales-section" style="margin: 0 40px 40px 40px;">
+        <div class="flash-header d-flex align-items-center justify-content-between p-3 mb-3" style="background: #db2b39; border-radius: 10px 10px 0 0; color: white;">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-bolt me-2" style="font-size: 1.5rem;"></i>
+                <span style="font-size: 1.4rem; font-weight: 700;">Flash Sales</span>
+                        </div>
+            <div style="font-size: 1.2rem; font-weight: 500;">
+                Time Left: <span id="flash-timer" style="font-weight: 700;">13h : 19m : 19s</span>
+                        </div>
+            <a href="#" style="color: white; font-weight: 500; text-decoration: underline;">See All <i class="fas fa-chevron-right"></i></a>
+                    </div>
+        <div class="row g-4 bg-white p-3" style="border-radius: 0 0 10px 10px;">
+            <!-- Example Flash Sale Product Card -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="flash-card position-relative p-3 h-100" style="border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                    <span class="flash-discount-badge position-absolute top-0 end-0" style="background: #db2b39; color: #fff; font-weight: 600; font-size: 1rem; border-radius: 0 8px 0 8px; padding: 4px 12px;">-22%</span>
+                    <div class="d-flex justify-content-center align-items-center mb-2" style="height: 120px;">
+                        <img src="galaxy.png" alt="Delron DB313 2 in 1 Blender" style="max-height: 100px; max-width: 100%; object-fit: contain;">
+                        </div>
+                    <div class="flash-title mb-1" style="font-size: 1rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Delron DB313 2 in 1 Blender</div>
+                    <div class="flash-price mb-1" style="font-size: 1.1rem; font-weight: bold; color: #054a91;">GH₵ 232.56</div>
+                    <div class="flash-old-price mb-1" style="font-size: 0.95rem; color: #888; text-decoration: line-through;">GH₵ 300.00</div>
+                    <div class="d-flex align-items-center mb-1" style="font-size: 0.95rem; color: #666;">
+                        <span>5 items left</span>
+                        </div>
+                    <div class="progress" style="height: 7px; background: #eee; border-radius: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: 25%; background: #ffb300;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Repeat for 7 more products (example below, you can update images/titles/prices as needed) -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="flash-card position-relative p-3 h-100" style="border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                    <span class="flash-discount-badge position-absolute top-0 end-0" style="background: #db2b39; color: #fff; font-weight: 600; font-size: 1rem; border-radius: 0 8px 0 8px; padding: 4px 12px;">-20%</span>
+                    <div class="d-flex justify-content-center align-items-center mb-2" style="height: 120px;">
+                        <img src="galaxy.png" alt="Asano 32'' - 32DF1 Smart TV" style="max-height: 100px; max-width: 100%; object-fit: contain;">
+                        </div>
+                    <div class="flash-title mb-1" style="font-size: 1rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Asano 32'' - 32DF1 Smart TV</div>
+                    <div class="flash-price mb-1" style="font-size: 1.1rem; font-weight: bold; color: #054a91;">GH₵ 1,593.00</div>
+                    <div class="flash-old-price mb-1" style="font-size: 0.95rem; color: #888; text-decoration: line-through;">GH₵ 1,999.00</div>
+                    <div class="d-flex align-items-center mb-1" style="font-size: 0.95rem; color: #666;">
+                        <span>5 items left</span>
+                        </div>
+                    <div class="progress" style="height: 7px; background: #eee; border-radius: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: 25%; background: #ffb300;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="flash-card position-relative p-3 h-100" style="border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                    <span class="flash-discount-badge position-absolute top-0 end-0" style="background: #db2b39; color: #fff; font-weight: 600; font-size: 1rem; border-radius: 0 8px 0 8px; padding: 4px 12px;">-14%</span>
+                    <div class="d-flex justify-content-center align-items-center mb-2" style="height: 120px;">
+                        <img src="galaxy.png" alt="Westpool WP - 167A Double Door Fridge" style="max-height: 100px; max-width: 100%; object-fit: contain;">
+                        </div>
+                    <div class="flash-title mb-1" style="font-size: 1rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Westpool WP - 167A Double Door Fridge</div>
+                    <div class="flash-price mb-1" style="font-size: 1.1rem; font-weight: bold; color: #054a91;">GH₵ 3,023.00</div>
+                    <div class="flash-old-price mb-1" style="font-size: 0.95rem; color: #888; text-decoration: line-through;">GH₵ 3,500.00</div>
+                    <div class="d-flex align-items-center mb-1" style="font-size: 0.95rem; color: #666;">
+                        <span>6 items left</span>
+                        </div>
+                    <div class="progress" style="height: 7px; background: #eee; border-radius: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: 40%; background: #ffb300;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="flash-card position-relative p-3 h-100" style="border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                    <span class="flash-discount-badge position-absolute top-0 end-0" style="background: #db2b39; color: #fff; font-weight: 600; font-size: 1rem; border-radius: 0 8px 0 8px; padding: 4px 12px;">-7%</span>
+                    <div class="d-flex justify-content-center align-items-center mb-2" style="height: 120px;">
+                        <img src="galaxy.png" alt="Bruhm BAS-12RCEW Split AC" style="max-height: 100px; max-width: 100%; object-fit: contain;">
+                        </div>
+                    <div class="flash-title mb-1" style="font-size: 1rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Bruhm BAS-12RCEW Split AC</div>
+                    <div class="flash-price mb-1" style="font-size: 1.1rem; font-weight: bold; color: #054a91;">GH₵ 4,534.88</div>
+                    <div class="flash-old-price mb-1" style="font-size: 0.95rem; color: #888; text-decoration: line-through;">GH₵ 4,900.00</div>
+                    <div class="d-flex align-items-center mb-1" style="font-size: 0.95rem; color: #666;">
+                        <span>10 items left</span>
+                        </div>
+                    <div class="progress" style="height: 7px; background: #eee; border-radius: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: 60%; background: #ffb300;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="flash-card position-relative p-3 h-100" style="border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                    <span class="flash-discount-badge position-absolute top-0 end-0" style="background: #db2b39; color: #fff; font-weight: 600; font-size: 1rem; border-radius: 0 8px 0 8px; padding: 4px 12px;">-3%</span>
+                    <div class="d-flex justify-content-center align-items-center mb-2" style="height: 120px;">
+                        <img src="galaxy.png" alt="Bruhm 55''- LED BTF-55V TV" style="max-height: 100px; max-width: 100%; object-fit: contain;">
+                        </div>
+                    <div class="flash-title mb-1" style="font-size: 1rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Bruhm 55''- LED BTF-55V TV</div>
+                    <div class="flash-price mb-1" style="font-size: 1.1rem; font-weight: bold; color: #054a91;">GH₵ 5,989.00</div>
+                    <div class="flash-old-price mb-1" style="font-size: 0.95rem; color: #888; text-decoration: line-through;">GH₵ 6,200.00</div>
+                    <div class="d-flex align-items-center mb-1" style="font-size: 0.95rem; color: #666;">
+                        <span>1 item left</span>
+                        </div>
+                    <div class="progress" style="height: 7px; background: #eee; border-radius: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: 10%; background: #ffb300;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="flash-card position-relative p-3 h-100" style="border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                    <span class="flash-discount-badge position-absolute top-0 end-0" style="background: #db2b39; color: #fff; font-weight: 600; font-size: 1rem; border-radius: 0 8px 0 8px; padding: 4px 12px;">-24%</span>
+                    <div class="d-flex justify-content-center align-items-center mb-2" style="height: 120px;">
+                        <img src="galaxy.png" alt="Cosmo Fresh Breeze Whitening Deo" style="max-height: 100px; max-width: 100%; object-fit: contain;">
+                        </div>
+                    <div class="flash-title mb-1" style="font-size: 1rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Cosmo Fresh Breeze Whitening Deo</div>
+                    <div class="flash-price mb-1" style="font-size: 1.1rem; font-weight: bold; color: #054a91;">GH₵ 45.50</div>
+                    <div class="flash-old-price mb-1" style="font-size: 0.95rem; color: #888; text-decoration: line-through;">GH₵ 60.00</div>
+                    <div class="d-flex align-items-center mb-1" style="font-size: 0.95rem; color: #666;">
+                        <span>10 items left</span>
+                        </div>
+                    <div class="progress" style="height: 7px; background: #eee; border-radius: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: 60%; background: #ffb300;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add 2 more cards as needed for a total of 8 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="flash-card position-relative p-3 h-100" style="border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                    <span class="flash-discount-badge position-absolute top-0 end-0" style="background: #db2b39; color: #fff; font-weight: 600; font-size: 1rem; border-radius: 0 8px 0 8px; padding: 4px 12px;">-18%</span>
+                    <div class="d-flex justify-content-center align-items-center mb-2" style="height: 120px;">
+                        <img src="galaxy.png" alt="Philips Dry Iron" style="max-height: 100px; max-width: 100%; object-fit: contain;">
+                        </div>
+                    <div class="flash-title mb-1" style="font-size: 1rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Philips Dry Iron</div>
+                    <div class="flash-price mb-1" style="font-size: 1.1rem; font-weight: bold; color: #054a91;">GH₵ 99.00</div>
+                    <div class="flash-old-price mb-1" style="font-size: 0.95rem; color: #888; text-decoration: line-through;">GH₵ 120.00</div>
+                    <div class="d-flex align-items-center mb-1" style="font-size: 0.95rem; color: #666;">
+                        <span>8 items left</span>
+                        </div>
+                    <div class="progress" style="height: 7px; background: #eee; border-radius: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: 50%; background: #ffb300;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="flash-card position-relative p-3 h-100" style="border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                    <span class="flash-discount-badge position-absolute top-0 end-0" style="background: #db2b39; color: #fff; font-weight: 600; font-size: 1rem; border-radius: 0 8px 0 8px; padding: 4px 12px;">-10%</span>
+                    <div class="d-flex justify-content-center align-items-center mb-2" style="height: 120px;">
+                        <img src="galaxy.png" alt="Binatone Standing Fan" style="max-height: 100px; max-width: 100%; object-fit: contain;">
+                        </div>
+                    <div class="flash-title mb-1" style="font-size: 1rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Binatone Standing Fan</div>
+                    <div class="flash-price mb-1" style="font-size: 1.1rem; font-weight: bold; color: #054a91;">GH₵ 210.00</div>
+                    <div class="flash-old-price mb-1" style="font-size: 0.95rem; color: #888; text-decoration: line-through;">GH₵ 235.00</div>
+                    <div class="d-flex align-items-center mb-1" style="font-size: 0.95rem; color: #666;">
+                        <span>4 items left</span>
+                        </div>
+                    <div class="progress" style="height: 7px; background: #eee; border-radius: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: 20%; background: #ffb300;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Shop With Us -->
+    <section class="why-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-6 col-md-3 why-feature">
+                    <i class="fas fa-shipping-fast"></i>
+                    <div class="fw-bold">Fast Delivery</div>
+                    <div>Nationwide delivery in 2–4 days.</div>
+                </div>
+                <div class="col-6 col-md-3 why-feature">
+                    <i class="fas fa-lock"></i>
+                    <div class="fw-bold">Secure Payment</div>
+                    <div>100% safe & encrypted checkout.</div>
+                </div>
+                <div class="col-6 col-md-3 why-feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="fw-bold">Warranty Support</div>
+                    <div>1-year warranty on all products.</div>
+                </div>
+                <div class="col-6 col-md-3 why-feature">
+                    <i class="fas fa-headset"></i>
+                    <div class="fw-bold">Customer Service</div>
+                    <div>24/7 support via chat & phone.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Testimonials -->
+    <section class="testimonials-section">
+        <h2 class="mb-4">What Our Customers Say</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <img src="testuser.png" class="testimonial-avatar" alt="Reviewer">
+                    <div class="testimonial-rating mb-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <blockquote>"Super fast delivery and the phone was exactly as described. Will shop again!"</blockquote>
+                    <div class="fw-bold mt-2">- Kwame, Accra</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <img src="testuser.png" class="testimonial-avatar" alt="Reviewer">
+                    <div class="testimonial-rating mb-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <blockquote>"Great prices and customer service. The warranty support is real!"</blockquote>
+                    <div class="fw-bold mt-2">- Ama, Kumasi</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <img src="testuser.png" class="testimonial-avatar" alt="Reviewer">
+                    <div class="testimonial-rating mb-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                    </div>
+                    <blockquote>"I love the deals and the blog tips are super helpful!"</blockquote>
+                    <div class="fw-bold mt-2">- Nana, Takoradi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Signup -->
+    <section class="newsletter-section">
+        <h2 class="mb-3">Stay updated with the latest tech deals!</h2>
+        <form class="newsletter-input d-flex">
+            <input type="email" class="form-control" placeholder="Enter your email" required>
+            <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+        <div class="mt-2 text-muted">We respect your privacy. No spam.</div>
+    </section>
+
+    <!-- Blog Highlights (Optional) -->
+    <section class="blog-section">
+        <h2 class="mb-4">Latest Blog Posts</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="blog-card">
+                    <img src="blogone.png" class="img-fluid rounded mb-2" alt="Blog 1">
+                    <h5>How to Choose a Laptop in 2025</h5>
+                    <p class="mb-2">A quick guide to picking the perfect laptop for your needs and budget.</p>
+                    <a href="#" class="btn btn-link">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="blog-card">
+                    <img src="blogtwo.png" class="img-fluid rounded mb-2" alt="Blog 2">
+                    <h5>Top 10 Gadgets Under GHS 1000</h5>
+                    <p class="mb-2">Discover the best affordable tech gadgets you can buy right now.</p>
+                    <a href="#" class="btn btn-link">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="blog-card">
+                    <img src="blogone.png" class="img-fluid rounded mb-2" alt="Blog 3">
+                    <h5>Must-Have Accessories for Remote Work</h5>
+                    <p class="mb-2">Upgrade your home office with these essential tech accessories.</p>
+                    <a href="#" class="btn btn-link">Read More</a>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Social Media Feed (Optional) -->
+    <section class="social-section">
+        <h2 class="mb-3">Follow Us on Instagram</h2>
+        <!-- Instagram feed embed or preview -->
+        <div class="mb-3">[Instagram Feed Preview Here]</div>
+        <a href="#" class="btn btn-outline-primary">Follow us for exclusive offers</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-3 footer-logo mb-3 mb-md-0">
+                    <img src="log white.png" alt="Tech Store Logo">
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="products.html">Shop</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Contact</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-phone me-2"></i>+233 24 000 0000</li>
+                        <li><i class="fas fa-envelope me-2"></i>info@techstore.com</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Accra, Ghana</li>
+                        <li><i class="fab fa-whatsapp me-2"></i><a href="#">Chat on WhatsApp</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Newsletter</h6>
+                    <form class="footer-newsletter d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Your email">
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </form>
+                    <div class="mt-2">
+                        <span class="payment-logos">
+                            <img src="visa.png" alt="Visa">
+                            <img src="mastercard.png" alt="MasterCard">
+                          
+                            <img src="paystack.png" alt="Paystack">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-12 text-end">
+                    <small>&copy; 2024 Tech Store. All rights reserved.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Example countdown timer for deals
+        function startDealTimer(duration, display) {
+            let timer = duration, hours, minutes, seconds;
+            setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = hours + ":" + minutes + ":" + seconds;
+                if (--timer < 0) timer = 0;
+            }, 1000);
+        }
+        window.onload = function () {
+            const timerDisplay = document.getElementById('deal-timer');
+            if (timerDisplay) startDealTimer(8142, timerDisplay); // 2h 15m 42s
+        };
+
+        // Flash Sales Countdown Timer
+        function startFlashTimer(duration, display) {
+            let timer = duration, hours, minutes, seconds;
+            setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = hours + "h : " + minutes + "m : " + seconds + "s";
+                if (--timer < 0) timer = 0;
+            }, 1000);
+        }
+        window.onload = function () {
+            const flashTimerDisplay = document.getElementById('flash-timer');
+            if (flashTimerDisplay) startFlashTimer(47959, flashTimerDisplay); // 13h 19m 19s
+        };
+    </script>
+</body>
+</html>
