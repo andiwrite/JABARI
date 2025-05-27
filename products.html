@@ -303,6 +303,15 @@
                 display: flex;
             }
         }
+        .filter-group input[type="range"].has-bubble {
+            background: linear-gradient(90deg, #054a91 0%, #eee 0%);
+            transition: background 0.18s cubic-bezier(.4,2,.6,1);
+        }
+        .range-bubble {
+            box-shadow: 0 2px 8px rgba(5,74,145,0.12);
+            min-width: 60px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -542,7 +551,7 @@
                         <li><a href="#">About</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">Terms</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3">
@@ -578,5 +587,229 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // Cart logic and animation
+    (function() {
+        // Store cart count in memory (could use localStorage for persistence)
+        let totalCartCount = 0;
+        // Per-product count (using product title as key for demo)
+        const productCounts = {};
+
+        // Find all add to cart buttons
+        const cartButtons = document.querySelectorAll('.btn-cart');
+        // Find cart count badge in navbar
+        const cartCountBadge = document.querySelector('.cart-icon .cart-count');
+
+        cartButtons.forEach(btn => {
+            // Get product title from card
+            const card = btn.closest('.product-card');
+            const title = card.querySelector('.card-title').textContent.trim();
+            productCounts[title] = 0;
+
+            btn.addEventListener('click', function() {
+                // Increment counts
+                productCounts[title]++;
+                totalCartCount++;
+
+                // Animate button (scale up then back)
+                btn.style.transform = 'scale(1.12)';
+                btn.style.backgroundColor = '#198754'; // Bootstrap success green
+                setTimeout(() => {
+                    btn.style.transform = '';
+                    btn.style.backgroundColor = '';
+                }, 180);
+
+                // Update button text
+                btn.textContent = `Added (${productCounts[title]})`;
+
+                // Optionally, add a check icon
+                btn.innerHTML = `<i class='fas fa-check-circle me-1'></i>Added (${productCounts[title]})`;
+
+                // Update cart icon count
+                if (cartCountBadge) {
+                    cartCountBadge.textContent = totalCartCount;
+                }
+            });
+        });
+    })();
+    </script>
+    <script>
+    // Wishlist (favorite) icon logic and animation
+    (function() {
+        const wishlistIcons = document.querySelectorAll('.product-card .wishlist');
+        wishlistIcons.forEach(icon => {
+            icon.addEventListener('click', function() {
+                // Toggle active class
+                icon.classList.toggle('active');
+                // Find the <i> inside
+                const heart = icon.querySelector('i');
+                // Toggle between outlined and filled heart
+                if (icon.classList.contains('active')) {
+                    heart.classList.remove('far');
+                    heart.classList.add('fas');
+                    // Animate scale up
+                    icon.style.transform = 'scale(1.25)';
+                    icon.style.color = '#db2b39';
+                } else {
+                    heart.classList.remove('fas');
+                    heart.classList.add('far');
+                    // Animate scale down
+                    icon.style.transform = 'scale(1)';
+                    icon.style.color = '';
+                }
+                setTimeout(() => {
+                    icon.style.transform = '';
+                }, 180);
+            });
+        });
+    })();
+    </script>
+    <script>
+    // Sorting and Grid/List View Logic
+    (function() {
+        const grid = document.querySelector('.products-grid');
+        const sortSelect = document.querySelector('.products-grid-controls select.form-select.me-2');
+        const gridBtn = document.querySelector('.products-grid-controls .fa-th').closest('button');
+        const listBtn = document.querySelector('.products-grid-controls .fa-list').closest('button');
+        let isListView = false;
+
+        // Helper: get product data from card
+        function getProductData(card) {
+            return {
+                card,
+                title: card.querySelector('.card-title').textContent.trim(),
+                price: parseFloat(card.querySelector('.price').textContent.replace(/[^\d.]/g, '')),
+                oldPrice: card.querySelector('.old-price') ? parseFloat(card.querySelector('.old-price').textContent.replace(/[^\d.]/g, '')) : null,
+                rating: card.querySelector('.rating') ? card.querySelector('.rating').textContent.length : 0
+            };
+        }
+
+        // Sort handler
+        function sortProducts() {
+            const cards = Array.from(grid.querySelectorAll('.product-card'));
+            const products = cards.map(getProductData);
+            const sortValue = sortSelect.value;
+            if (sortValue === 'Price: Low to High') {
+                products.sort((a, b) => a.price - b.price);
+            } else if (sortValue === 'Price: High to Low') {
+                products.sort((a, b) => b.price - a.price);
+            } else if (sortValue === 'Newest') {
+                // For demo, keep as is (could use data-date attr)
+            } else if (sortValue === 'Popularity') {
+                // For demo, keep as is (could use data-popularity attr)
+            } else {
+                // Default: sort by title
+                products.sort((a, b) => a.title.localeCompare(b.title));
+            }
+            // Re-render
+            grid.innerHTML = '';
+            products.forEach(p => grid.appendChild(p.card));
+        }
+
+        // View switch handler
+        function setView(list) {
+            isListView = list;
+            if (list) {
+                grid.classList.add('list-view');
+                grid.classList.remove('grid-view');
+                grid.style.display = 'block';
+                grid.querySelectorAll('.product-card').forEach(card => {
+                    card.style.display = 'flex';
+                    card.style.flexDirection = 'row';
+                    card.style.alignItems = 'center';
+                    card.style.width = '100%';
+                    card.querySelector('.card-img-top').style.width = '120px';
+                    card.querySelector('.card-img-top').style.margin = '0 24px 0 0';
+                    card.querySelector('.card-body').style.textAlign = 'left';
+                    card.querySelector('.card-body').style.flex = '1';
+                });
+            } else {
+                grid.classList.remove('list-view');
+                grid.classList.add('grid-view');
+                grid.style.display = '';
+                grid.querySelectorAll('.product-card').forEach(card => {
+                    card.style.display = '';
+                    card.style.flexDirection = '';
+                    card.style.alignItems = '';
+                    card.style.width = '';
+                    card.querySelector('.card-img-top').style.width = '';
+                    card.querySelector('.card-img-top').style.margin = '';
+                    card.querySelector('.card-body').style.textAlign = 'center';
+                    card.querySelector('.card-body').style.flex = '';
+                });
+            }
+        }
+
+        // Event listeners
+        if (sortSelect) sortSelect.addEventListener('change', sortProducts);
+        if (gridBtn) gridBtn.addEventListener('click', () => setView(false));
+        if (listBtn) listBtn.addEventListener('click', () => setView(true));
+
+        // Optional: highlight active view button
+        function updateViewButtons() {
+            if (isListView) {
+                listBtn.classList.add('btn-primary');
+                gridBtn.classList.remove('btn-primary');
+            } else {
+                gridBtn.classList.add('btn-primary');
+                listBtn.classList.remove('btn-primary');
+            }
+        }
+        if (gridBtn && listBtn) {
+            gridBtn.addEventListener('click', updateViewButtons);
+            listBtn.addEventListener('click', updateViewButtons);
+            updateViewButtons();
+        }
+    })();
+    </script>
+    <script>
+    // Price range slider animation and live value bubble
+    (function() {
+        const range = document.querySelector('.filter-group input[type="range"]');
+        if (!range) return;
+        // Create value bubble
+        const bubble = document.createElement('div');
+        bubble.className = 'range-bubble';
+        bubble.style.position = 'absolute';
+        bubble.style.top = '-32px';
+        bubble.style.left = '0';
+        bubble.style.transform = 'translateX(-50%)';
+        bubble.style.background = '#054a91';
+        bubble.style.color = '#fff';
+        bubble.style.padding = '2px 10px';
+        bubble.style.borderRadius = '12px';
+        bubble.style.fontSize = '0.95rem';
+        bubble.style.fontWeight = 'bold';
+        bubble.style.pointerEvents = 'none';
+        bubble.style.transition = 'left 0.18s cubic-bezier(.4,2,.6,1)';
+        bubble.style.zIndex = '2';
+        // Position bubble container
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'relative';
+        wrapper.appendChild(range.cloneNode(true));
+        range.parentNode.insertBefore(wrapper, range);
+        range.parentNode.removeChild(range);
+        wrapper.appendChild(bubble);
+        // Track fill
+        wrapper.querySelector('input[type="range"]').classList.add('has-bubble');
+        // Update bubble position and value
+        function setBubble(val) {
+            const min = +range.min;
+            const max = +range.max;
+            const percent = (val - min) / (max - min);
+            const sliderWidth = range.offsetWidth;
+            bubble.textContent = `GHS ${parseInt(val).toLocaleString()}`;
+            bubble.style.left = `calc(${percent * 100}% - ${percent * 32}px)`;
+            // Animate track fill
+            range.style.background = `linear-gradient(90deg, #054a91 ${percent*100}%, #eee ${percent*100}%)`;
+        }
+        // Sync bubble on input
+        wrapper.querySelector('input[type="range"]').addEventListener('input', function(e) {
+            setBubble(e.target.value);
+        });
+        // Initial
+        setBubble(range.value);
+    })();
+    </script>
 </body>
 </html> 
