@@ -380,10 +380,6 @@
         <a class="navbar-brand" href="#"><img src="log blue.png" alt="Tech Store Logo"></a>
         <!-- Search and Favorite (always visible, under logo on mobile) -->
         <div class="navbar-search-fav d-lg-none w-100 d-flex flex-column align-items-center mb-2">
-            <form class="d-flex w-100 mb-2" role="search" style="max-width: 400px;">
-                <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
-            </form>
             <a href="#" class="btn btn-outline-secondary wishlist-mobile mb-2"><i class="far fa-heart"></i></a>
         </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -397,11 +393,6 @@
                 <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
             </ul>
-            <!-- Desktop search and favorite -->
-            <form class="d-flex me-3 d-none d-lg-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
-            </form>
             <a href="signin.html" class="btn btn-outline-secondary me-2"><i class="fas fa-user"></i> Login</a>
             <a href="#" class="btn btn-outline-primary cart-icon me-2"><i class="fas fa-shopping-cart"></i><span class="cart-count">2</span></a>
             <a href="#" class="btn btn-outline-secondary wishlist-desktop d-none d-lg-inline-block me-2"><i class="far fa-heart"></i></a>
@@ -637,6 +628,53 @@
                     <div class="progress" style="height: 7px; background: #eee; border-radius: 5px;">
                         <div class="progress-bar" role="progressbar" style="width: 20%; background: #ffb300;"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Search Bar -->
+    <section class="products-section">
+        <form class="d-flex justify-content-center mb-4" role="search" style="max-width: 400px; margin: 0 auto;">
+            <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+        <h2 class="mb-4">Featured Products</h2>
+        <div class="row g-4">
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="product-card">
+                    <img src="phone.png" alt="Phones">
+                    <div>Phones</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="product-card">
+                    <img src="laptop.png" alt="Laptops">
+                    <div>Laptops</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="product-card">
+                    <img src="accessories.png" alt="Accessories">
+                    <div>Accessories</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="product-card">
+                    <img src="gaming.png" alt="Gaming">
+                    <div>Gaming</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="product-card">
+                    <img src="smart.png" alt="Smart Tech">
+                    <div>Smart Tech</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="product-card">
+                    <img src="home.png" alt="Home Tech">
+                    <div>Home Tech</div>
                 </div>
             </div>
         </div>
