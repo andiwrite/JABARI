@@ -863,5 +863,130 @@
             tiles.forEach(tile => observer.observe(tile));
         })();
     </script>
+    <style>
+        @media (max-width: 991px) {
+            .navbar {
+                margin: 12px 8px;
+                padding: 10px 10px;
+            }
+            .hero-section, .categories-section, .products-section, .why-section, .testimonials-section, .newsletter-section, .blog-section, .social-section, .footer {
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+            .hero-content {
+                margin-left: 0;
+                max-width: 100%;
+            }
+            .hero-image {
+                margin-right: 0;
+                max-width: 100%;
+            }
+            .footer {
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+        }
+        @media (max-width: 767px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                margin: 8px 2px;
+                padding: 8px 4px;
+            }
+            .hero-section, .categories-section, .products-section, .why-section, .testimonials-section, .newsletter-section, .blog-section, .social-section, .footer {
+                margin-left: 2px;
+                margin-right: 2px;
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .hero-section {
+                flex-direction: column;
+                padding: 30px 0 20px 0;
+                min-height: unset;
+            }
+            .hero-content {
+                margin-left: 0;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            .hero-image {
+                margin-right: 0;
+                margin-bottom: 0;
+                max-width: 100%;
+            }
+            .categories-section .row {
+                flex-wrap: wrap;
+            }
+            .category-card {
+                padding: 18px 2px 12px 2px;
+                font-size: 0.98rem;
+            }
+            .products-section .row, .testimonials-section .row, .blog-section .row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .product-card, .testimonial-card, .blog-card {
+                margin-bottom: 1rem;
+                width: 100%;
+                min-width: 0;
+            }
+            .footer {
+                margin: 8px 2px 0 2px;
+                padding: 20px 0 10px 0;
+                border-radius: 12px 12px 0 0;
+            }
+            .footer .row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .footer .col-md-3 {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+            .footer .footer-logo img {
+                height: 28px;
+            }
+            .footer .payment-logos img {
+                height: 22px;
+                margin-right: 6px;
+            }
+            .back-to-top {
+                bottom: 16px;
+                right: 16px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+        @media (max-width: 480px) {
+            html, body {
+                font-size: 15px;
+            }
+            .navbar {
+                padding: 6px 2px;
+            }
+            .hero-section, .categories-section, .products-section, .why-section, .testimonials-section, .newsletter-section, .blog-section, .social-section, .footer {
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .footer {
+                padding: 10px 0 6px 0;
+            }
+            .footer .footer-logo img {
+                height: 22px;
+            }
+            .footer .payment-logos img {
+                height: 16px;
+            }
+            .back-to-top {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+        }
+        body {
+            overflow-x: hidden;
+        }
+    </style>
 </body>
 </html>
