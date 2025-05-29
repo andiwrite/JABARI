@@ -365,7 +365,11 @@
 <body>
     <!-- Header Section -->
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#"><img src="log blue.png" alt="Tech Store Logo"></a>
+        <a class="navbar-brand" href="index.html"><img src="log blue.png" alt="Tech Store Logo"></a>
+        <!-- Search and Favorite (always visible, under logo on mobile) -->
+        <div class="navbar-search-fav d-lg-none w-100 d-flex flex-column align-items-center mb-2">
+            <a href="#" class="btn btn-outline-secondary wishlist-mobile mb-2"><i class="far fa-heart"></i></a>
+        </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -377,13 +381,9 @@
                 <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
                 <li class="nav-item"><a class="nav-link" href="support.html">Support</a></li>
             </ul>
-            <form class="d-flex me-3" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
-            </form>
-            
             <a href="signin.html" class="btn btn-outline-secondary me-2"><i class="fas fa-user"></i> Login</a>
             <a href="cart.html" class="btn btn-outline-primary cart-icon me-2"><i class="fas fa-shopping-cart"></i><span class="cart-count">2</span></a>
+            <a href="#" class="btn btn-outline-secondary wishlist-desktop d-none d-lg-inline-block me-2"><i class="far fa-heart"></i></a>
             <div class="dropdown">
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">EN / GHS</button>
                 <ul class="dropdown-menu">
@@ -476,7 +476,7 @@
             <div style="font-size: 1.2rem; font-weight: 500;">
                 Time Left: <span id="flash-timer" style="font-weight: 700;">13h : 19m : 19s</span>
                         </div>
-            <a href="#" style="color: white; font-weight: 500; text-decoration: underline;">See All <i class="fas fa-chevron-right"></i></a>
+            <a href="products.html" style="color: white; font-weight: 500; text-decoration: underline;">See All <i class="fas fa-chevron-right"></i></a>
                     </div>
         <div class="row g-4 bg-white p-3" style="border-radius: 0 0 10px 10px;">
             <!-- Example Flash Sale Product Card -->
