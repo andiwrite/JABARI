@@ -67,6 +67,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const price = parseFloat(priceText);
             const img = card.querySelector('img')?.getAttribute('src') || '';
             addToCart({name, price, img});
+            // --- Animation: Button pop ---
+            btn.classList.add('cart-added-animate');
+            setTimeout(() => btn.classList.remove('cart-added-animate'), 350);
+            // --- Animation: Cart icon shake ---
+            const cartIcon = document.querySelector('.cart-icon');
+            if (cartIcon) {
+                cartIcon.classList.add('cart-shake-animate');
+                setTimeout(() => cartIcon.classList.remove('cart-shake-animate'), 500);
+            }
         });
     });
     updateCartIcon();
