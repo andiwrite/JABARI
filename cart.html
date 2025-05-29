@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - Tech Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #054a91;
+            --secondary-color: #f8f9fa;
+            --accent-color: #db2b39;
+        }
+        body {
+            background: #f4f6fa;
+            overflow-x: hidden;
+        }
+        /* Header */
+        .navbar {
+            background: white !important;
+            margin: 20px 40px;
+            border-radius: 15px;
+            padding: 15px 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand img {
+            height: 40px;
+        }
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .navbar .nav-link {
+            color: #333;
+            font-weight: 500;
+            transition: color 0.2s, transform 0.25s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .navbar .nav-link.active {
+            color: var(--primary-color);
+        }
+        .navbar .nav-link:hover, .navbar .nav-link:focus {
+            color: var(--primary-color);
+            transform: scale(1.13);
+        }
+        .navbar .btn, .navbar .dropdown-toggle {
+            margin-left: 0.5rem;
+        }
+        .navbar .cart-icon {
+            position: relative;
+        }
+        .navbar .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+        }
+        /* Footer */
+        .footer {
+            background: #222;
+            color: #eee;
+            padding: 40px 0 20px 0;
+            border-radius: 20px 20px 0 0;
+            margin: 40px 40px 0 40px;
+        }
+        .footer a {
+            color: #eee;
+            text-decoration: none;
+        }
+        .footer .footer-logo img {
+            height: 36px;
+        }
+        .footer .social-icons a {
+            font-size: 1.3rem;
+            margin-right: 12px;
+            color: #eee;
+        }
+        .footer .payment-logos img {
+            height: 28px;
+            margin-right: 10px;
+        }
+        .footer-newsletter {
+            max-width: 350px;
+            margin: 0 auto 20px auto;
+        }
+        /* Cart Page Specific Styles */
+        .cart-title-section { background: #fff; border-radius: 15px; margin: 30px 40px 20px 40px; padding: 30px 30px 18px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+        .cart-table { background: #fff; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 30px; }
+        .cart-table th, .cart-table td { vertical-align: middle; }
+        .cart-summary { background: #fff; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 24px; }
+        .promo-input { border-radius: 25px; }
+        .suggested-section { background: #fff; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 24px; margin-top: 30px; }
+        .security-icons img { height: 28px; margin-right: 10px; }
+        .secure-checkout { color: #054a91; font-weight: 500; }
+        @media (max-width: 991px) {
+            .navbar {
+                margin: 12px 8px;
+                padding: 10px 10px;
+            }
+            .cart-title-section, .footer {
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+            .footer {
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+        }
+        @media (min-width: 992px) {
+            .navbar-search-fav { display: none !important; }
+            .wishlist-desktop { display: inline-block !important; }
+        }
+        @media (max-width: 767px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                margin: 8px 2px;
+                padding: 8px 4px;
+            }
+            .cart-title-section, .footer {
+                margin-left: 2px;
+                margin-right: 2px;
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .footer {
+                margin: 8px 2px 0 2px;
+                padding: 20px 0 10px 0;
+                border-radius: 12px 12px 0 0;
+            }
+            .footer .row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .footer .col-md-3 {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+            .footer .footer-logo img {
+                height: 28px;
+            }
+            .footer .payment-logos img {
+                height: 22px;
+                margin-right: 6px;
+            }
+        }
+        @media (max-width: 480px) {
+            html, body {
+                font-size: 15px;
+            }
+            .navbar {
+                padding: 6px 2px;
+            }
+            .cart-title-section, .footer {
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .footer {
+                padding: 10px 0 6px 0;
+            }
+            .footer .footer-logo img {
+                height: 22px;
+            }
+            .footer .payment-logos img {
+                height: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (reuse from other pages) -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="index.html"><img src="log blue.png" alt="Tech Store Logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+                <li class="nav-item"><a class="nav-link" href="support.html">Support</a></li>
+            </ul>
+            <a href="signin.html" class="btn btn-outline-secondary me-2"><i class="fas fa-user"></i> Login</a>
+            <a href="cart.html" class="btn btn-primary cart-icon me-2"><i class="fas fa-shopping-cart"></i><span class="cart-count">2</span></a>
+        </div>
+    </nav>
+
+    <!-- Page Title Section -->
+    <section class="cart-title-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+            </ol>
+        </nav>
+        <h2>Your Cart</h2>
+        <p class="text-muted">Review your items before checkout</p>
+    </section>
+
+    <!-- Cart Items and Summary -->
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="table-responsive cart-table mb-4">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Subtotal</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example Cart Item -->
+                            <tr>
+                                <td><img src="galaxy.png" alt="Delron Blender" style="width: 60px; border-radius: 8px;"></td>
+                                <td>Delron DB313 2 in 1 Blender</td>
+                                <td>GH₵ 232.56</td>
+                                <td>
+                                    <div class="input-group input-group-sm" style="max-width: 110px;">
+                                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-minus"></i></button>
+                                        <input type="text" class="form-control text-center" value="1">
+                                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </td>
+                                <td>GH₵ 232.56</td>
+                                <td>
+                                    <button class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Add more cart items as needed -->
+                        </tbody>
+                    </table>
+                </div>
+                <a href="products.html" class="btn btn-outline-primary"><i class="fas fa-arrow-left me-2"></i>Continue Shopping</a>
+            </div>
+            <div class="col-lg-4">
+                <div class="cart-summary mb-4">
+                    <h5>Order Summary</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal</span>
+                        <span>GH₵ 232.56</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Estimated Shipping</span>
+                        <span>GH₵ 20.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Taxes</span>
+                        <span>GH₵ 10.00</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="fw-bold">Total</span>
+                        <span class="fw-bold">GH₵ 262.56</span>
+                    </div>
+                    <form class="d-flex mb-3">
+                        <input type="text" class="form-control promo-input me-2" placeholder="Promo code">
+                        <button class="btn btn-outline-secondary" type="submit">Apply</button>
+                    </form>
+                    <div class="mb-2 text-muted" style="font-size: 0.95rem;">Estimated delivery: 2–4 days</div>
+                    <a href="#" class="btn btn-primary w-100 mb-2">Proceed to Checkout</a>
+                </div>
+                <div class="security-icons mb-2">
+                    <img src="visa.png" alt="Visa">
+                    <img src="mastercard.png" alt="MasterCard">
+                   
+                    <img src="paystack.png" alt="Paystack">
+                   
+                </div>
+                <div class="secure-checkout mb-4"><i class="fas fa-lock me-2"></i>Secure checkout guaranteed</div>
+            </div>
+        </div>
+        <!-- Suggested Items Section -->
+        <div class="suggested-section mt-5">
+            <h5>You Might Also Like</h5>
+            <div class="row g-3 mt-2">
+                <div class="col-6 col-md-3">
+                    <div class="card h-100">
+                        <img src="phone.png" class="card-img-top" alt="Asano TV">
+                        <div class="card-body text-center">
+                            <div class="card-title">Asano 32'' Smart TV</div>
+                            <div class="mb-2">GH₵ 1,593.00</div>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card h-100">
+                        <img src="laptop.png" class="card-img-top" alt="Bruhm TV">
+                        <div class="card-body text-center">
+                            <div class="card-title">Bruhm 55'' LED TV</div>
+                            <div class="mb-2">GH₵ 5,989.00</div>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card h-100">
+                        <img src="accessories.png" class="card-img-top" alt="Philips Iron">
+                        <div class="card-body text-center">
+                            <div class="card-title">Philips Dry Iron</div>
+                            <div class="mb-2">GH₵ 99.00</div>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card h-100">
+                        <img src="home.png" class="card-img-top" alt="Binatone Fan">
+                        <div class="card-body text-center">
+                            <div class="card-title">Binatone Standing Fan</div>
+                            <div class="mb-2">GH₵ 210.00</div>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (reuse from other pages) -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-3 footer-logo mb-3 mb-md-0">
+                    <img src="log white.png" alt="Tech Store Logo">
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Shop</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Contact</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-phone me-2"></i>+233 24 000 0000</li>
+                        <li><i class="fas fa-envelope me-2"></i>info@techstore.com</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Accra, Ghana</li>
+                        <li><i class="fab fa-whatsapp me-2"></i><a href="https://wa.me/+233500300772" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Newsletter</h6>
+                    <form class="footer-newsletter d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Your email">
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </form>
+                    <div class="mt-2">
+                        <span class="payment-logos">
+                            <a href="https://www.visa.com/" target="_blank" rel="noopener noreferrer"><img src="visa.png" alt="Visa"></a>
+                            <a href="https://www.mastercard.com/" target="_blank" rel="noopener noreferrer"><img src="mastercard.png" alt="MasterCard"></a>
+                            <a href="https://paystack.com/" target="_blank" rel="noopener noreferrer"><img src="paystack.png" alt="Paystack"></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-12 text-end">
+                    <small>&copy; 2024 Tech Store. All rights reserved.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // Utility: Format currency
+    function formatCurrency(value) {
+        return 'GH₵ ' + value.toFixed(2);
+    }
+
+    // Update cart totals
+    function updateCartTotals() {
+        let subtotal = 0;
+        document.querySelectorAll('.cart-row').forEach(row => {
+            const price = parseFloat(row.querySelector('.cart-price').dataset.value);
+            const qty = parseInt(row.querySelector('.cart-qty').value);
+            subtotal += price * qty;
+            row.querySelector('.cart-subtotal').textContent = formatCurrency(price * qty);
+        });
+        document.getElementById('cart-subtotal').textContent = formatCurrency(subtotal);
+        // Example shipping/tax
+        const shipping = subtotal > 0 ? 20 : 0;
+        const taxes = subtotal > 0 ? 10 : 0;
+        document.getElementById('cart-shipping').textContent = formatCurrency(shipping);
+        document.getElementById('cart-taxes').textContent = formatCurrency(taxes);
+        document.getElementById('cart-total').textContent = formatCurrency(subtotal + shipping + taxes);
+    }
+
+    // Quantity buttons
+    function setupQtyButtons() {
+        document.querySelectorAll('.cart-row').forEach(row => {
+            row.querySelector('.qty-minus').onclick = function() {
+                let qtyInput = row.querySelector('.cart-qty');
+                let qty = parseInt(qtyInput.value);
+                if (qty > 1) {
+                    qtyInput.value = qty - 1;
+                    updateCartTotals();
+                }
+            };
+            row.querySelector('.qty-plus').onclick = function() {
+                let qtyInput = row.querySelector('.cart-qty');
+                qtyInput.value = parseInt(qtyInput.value) + 1;
+                updateCartTotals();
+            };
+        });
+    }
+
+    // Delete buttons
+    function setupDeleteButtons() {
+        document.querySelectorAll('.cart-row .cart-delete').forEach(btn => {
+            btn.onclick = function() {
+                btn.closest('tr').remove();
+                updateCartTotals();
+            };
+        });
+    }
+
+    // Add to Cart from suggested items
+    function setupAddToCart() {
+        document.querySelectorAll('.suggested-section .add-to-cart').forEach(btn => {
+            btn.onclick = function(e) {
+                e.preventDefault();
+                const card = btn.closest('.card');
+                const name = card.querySelector('.card-title').textContent.trim();
+                const priceText = card.querySelector('.mb-2').textContent.replace(/[^\d.]/g, '');
+                const price = parseFloat(priceText);
+                const img = card.querySelector('img').getAttribute('src');
+                // Check if already in cart
+                let found = false;
+                document.querySelectorAll('.cart-row').forEach(row => {
+                    if (row.querySelector('.cart-name').textContent.trim() === name) {
+                        let qtyInput = row.querySelector('.cart-qty');
+                        qtyInput.value = parseInt(qtyInput.value) + 1;
+                        found = true;
+                    }
+                });
+                if (!found) {
+                    // Add new row
+                    const tbody = document.querySelector('.cart-table tbody');
+                    const tr = document.createElement('tr');
+                    tr.className = 'cart-row';
+                    tr.innerHTML = `
+                        <td><img src="${img}" alt="${name}" style="width: 60px; border-radius: 8px;"></td>
+                        <td class="cart-name">${name}</td>
+                        <td class="cart-price" data-value="${price}">${formatCurrency(price)}</td>
+                        <td>
+                            <div class="input-group input-group-sm" style="max-width: 110px;">
+                                <button class="btn btn-outline-secondary qty-minus" type="button"><i class="fas fa-minus"></i></button>
+                                <input type="text" class="form-control text-center cart-qty" value="1">
+                                <button class="btn btn-outline-secondary qty-plus" type="button"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </td>
+                        <td class="cart-subtotal">${formatCurrency(price)}</td>
+                        <td><button class="btn btn-outline-danger btn-sm cart-delete"><i class="fas fa-trash"></i></button></td>
+                    `;
+                    tbody.appendChild(tr);
+                    setupQtyButtons();
+                    setupDeleteButtons();
+                }
+                updateCartTotals();
+            };
+        });
+    }
+
+    // On page load
+    window.addEventListener('DOMContentLoaded', function() {
+        // Mark cart rows
+        document.querySelectorAll('.cart-table tbody tr').forEach(tr => tr.classList.add('cart-row'));
+        // Add classes for JS selectors
+        document.querySelectorAll('.cart-table tbody tr').forEach(row => {
+            row.querySelector('td:nth-child(2)').classList.add('cart-name');
+            row.querySelector('td:nth-child(3)').classList.add('cart-price');
+            row.querySelector('td:nth-child(4) input').classList.add('cart-qty');
+            row.querySelector('td:nth-child(4) .btn-outline-secondary:first-child').classList.add('qty-minus');
+            row.querySelector('td:nth-child(4) .btn-outline-secondary:last-child').classList.add('qty-plus');
+            row.querySelector('td:nth-child(5)').classList.add('cart-subtotal');
+            row.querySelector('td:nth-child(6) .btn-outline-danger').classList.add('cart-delete');
+        });
+        setupQtyButtons();
+        setupDeleteButtons();
+        setupAddToCart();
+        updateCartTotals();
+    });
+    </script>
+    <!-- Update cart summary IDs for JS -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set IDs for summary fields
+        document.querySelector('span:contains("GH₵ 232.56")').id = 'cart-subtotal';
+        document.querySelector('span:contains("GH₵ 20.00")').id = 'cart-shipping';
+        document.querySelector('span:contains("GH₵ 10.00")').id = 'cart-taxes';
+        document.querySelector('span.fw-bold:contains("GH₵ 262.56")').id = 'cart-total';
+    });
+    </script>
+    <!-- Add class to Add to Cart buttons -->
+    <script>
+    document.querySelectorAll('.suggested-section .btn-outline-primary').forEach(btn => btn.classList.add('add-to-cart'));
+    </script>
+</body>
+</html> 

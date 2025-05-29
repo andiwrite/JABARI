@@ -346,7 +346,7 @@
                 <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
             </form>
             <a href="signin.html" class="btn btn-outline-primary me-2">Login</a>
-            <a href="#" class="btn btn-outline-primary cart-icon me-2"><i class="fas fa-shopping-cart"></i><span class="cart-count">2</span></a>
+            <a href="cart.html" class="btn btn-outline-primary cart-icon me-2"><i class="fas fa-shopping-cart"></i><span class="cart-count">2</span></a>
             <div class="dropdown">
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">EN / GHS</button>
                 <ul class="dropdown-menu">
@@ -599,52 +599,7 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    // Cart logic and animation
-    (function() {
-        // Store cart count in memory (could use localStorage for persistence)
-        let totalCartCount = 0;
-        // Per-product count (using product title as key for demo)
-        const productCounts = {};
-
-        // Find all add to cart buttons
-        const cartButtons = document.querySelectorAll('.btn-cart');
-        // Find cart count badge in navbar
-        const cartCountBadge = document.querySelector('.cart-icon .cart-count');
-
-        cartButtons.forEach(btn => {
-            // Get product title from card
-            const card = btn.closest('.product-card');
-            const title = card.querySelector('.card-title').textContent.trim();
-            productCounts[title] = 0;
-
-            btn.addEventListener('click', function() {
-                // Increment counts
-                productCounts[title]++;
-                totalCartCount++;
-
-                // Animate button (scale up then back)
-                btn.style.transform = 'scale(1.12)';
-                btn.style.backgroundColor = '#198754'; // Bootstrap success green
-                setTimeout(() => {
-                    btn.style.transform = '';
-                    btn.style.backgroundColor = '';
-                }, 180);
-
-                // Update button text
-                btn.textContent = `Added (${productCounts[title]})`;
-
-                // Optionally, add a check icon
-                btn.innerHTML = `<i class='fas fa-check-circle me-1'></i>Added (${productCounts[title]})`;
-
-                // Update cart icon count
-                if (cartCountBadge) {
-                    cartCountBadge.textContent = totalCartCount;
-                }
-            });
-        });
-    })();
-    </script>
+    <script src="cart.js"></script>
     <script>
     // Wishlist (favorite) icon logic and animation
     (function() {
